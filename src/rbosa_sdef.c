@@ -331,12 +331,12 @@ rbosa_scripting_info (VALUE self, VALUE hash)
         remote = CSTR2RVAL (c_remote);
     } 
 
-    if (RHASH (hash)->tbl->num_entries > 0) {
+    if (RHASH_TBL(hash)->num_entries > 0) {
         VALUE   keys;
 
         keys = rb_funcall (hash, rb_intern ("keys"), 0);
         rb_raise (rb_eArgError, "inappropriate argument(s): %s", 
-                  RSTRING (rb_inspect (keys))->ptr);
+                  RSTRING_PTR(rb_inspect (keys)));
     }
 
     if (NIL_P (remote)) {

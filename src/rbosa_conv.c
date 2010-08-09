@@ -43,9 +43,9 @@ rbobj_to_fourchar (VALUE obj)
             obj = rb_obj_as_string (obj);
 
         if (rb_obj_is_kind_of (obj, rb_cString)) {
-            if (RSTRING (obj)->len != 4)
+            if (RSTRING_LEN(obj) != 4)
                 rb_raise (rb_eArgError, USAGE_MSG);
-            result = *(FourCharCode*)(RSTRING (obj)->ptr);
+            result = *(FourCharCode*)(RSTRING_PTR(obj));
             result = CFSwapInt32HostToBig (result);
         }
         else {
@@ -76,8 +76,8 @@ rbobj_to_alias_handle (VALUE obj, AliasHandle *alias)
     *alias = NULL;
 
     URL = CFURLCreateFromFileSystemRepresentation (kCFAllocatorDefault, 
-                                                   (const UInt8 *)RSTRING (obj)->ptr, 
-                                                   RSTRING (obj)->len,
+                                                   (const UInt8 *)RSTRING_PTR(obj), 
+                                                   RSTRING_LEN(obj),
                                                    0 /* XXX: normally passing 0 even if it's a directory should
                                                         not hurt, as we are just getting the FSRef. */); 
     if (URL == NULL)
@@ -88,10 +88,10 @@ rbobj_to_alias_handle (VALUE obj, AliasHandle *alias)
         error = FSNewAlias (NULL, &ref, alias);
         if (error != noErr)
             rb_raise (rb_eArgError, "Cannot create alias handle for given filename '%s' : %s (%d)",
-                      RSTRING (obj)->ptr, GetMacOSStatusErrorString (error), error); 
+                      RSTRING_PTR(obj), GetMacOSStatusErrorString (error), error); 
     }
     else {
         rb_raise (rb_eArgError, "Cannot obtain the filesystem reference for given filename '%s'",
-                  RSTRING (obj)->ptr);
+                  RSTRING_PTR(obj));
     }
 }
