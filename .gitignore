@@ -1,0 +1,20 @@
+#
+# project specific ignores:
+#
+
+*.gem
+
+#
+# common ignores:
+#
+
+obj
+
+log/*.log
+tmp/*
+
+
+Makefile
+mkmf.log
+src/osx_intern.h
+src/osx_ruby.h
